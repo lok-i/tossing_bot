@@ -1,0 +1,70 @@
+<mujoco model="scene">
+
+  <!-- <include file="kinova3.xml"/> -->
+  <!-- <include file="kinova3_adj_ee.xml"/> -->
+  <include file="arm1.xml"/>
+  <include file="arm2.xml"/>
+  <include file="arm3.xml"/>
+  <include file="arm4.xml"/>
+  <include file="conveyer.xml"/>
+  <include file="phone_model.xml"/>
+  
+  <statistic center="0 0 0.55" extent="1.1"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6"  ambient="0.3 0.3 0.3" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="150" elevation="-20"/>
+  </visual>
+
+
+    <default>
+        <default class="active_adhesion">
+                <!--
+                Geoms in the active_adhesion class are "inflated" with a margin of 1cm, but contacts are
+                activated only at a depth gap of 1cm, leading to a layer of inactive contacts at a 1cm
+                distance from the surface. However the contacts can be used by the adhesion actuator.
+                -->
+            <geom rgba=".8 .5 .5 1" margin=".01" gap=".01"/>
+        </default>
+
+        <default class="object">
+            <geom rgba=".5 .8 .5 1" density="100"/>
+        </default>
+        
+    </default>
+
+  <asset>
+
+ 
+
+      <mesh name="base_link" file="meshes/base_link.stl" />
+      <mesh name="shoulder_link" file="meshes/shoulder_link.stl" />
+      <mesh name="half_arm_1_link" file="meshes/half_arm_1_link.stl" />
+      <mesh name="half_arm_2_link" file="meshes/half_arm_2_link.stl" />
+      <mesh name="forearm_link" file="meshes/forearm_link.stl" />
+      <mesh name="spherical_wrist_1_link" file="meshes/spherical_wrist_1_link.stl" />
+      <mesh name="spherical_wrist_2_link" file="meshes/spherical_wrist_2_link.stl" />
+      <mesh name="bracelet_with_vision_link" file="meshes/bracelet_with_vision_link.stl" />
+
+
+
+
+
+
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512"
+        height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4"
+        rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5"
+        reflectance="0.2"/>
+  </asset>
+
+  <worldbody>
+    <!-- <light pos="0 0 3" dir="0 0 -1"  directional="false"/> -->
+    <light pos="0 0 3" dir="0 0 -1" directional="false" mode="targetbody" target="conveyer" />
+    <geom name="floor" size="0 0 .125" type="plane" material="groundplane" conaffinity="15" condim="3"/>
+  
+  </worldbody>
+
+</mujoco>

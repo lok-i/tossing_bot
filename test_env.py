@@ -7,7 +7,9 @@ robot_name='kinova3'
 # initialize custom mujoco simulation class
 sim = mujoco_sim( 
                   render={'active':True,'on_screen':True},
-                  model_path="assets/robots/"+robot_name+"/robot.xml",                  
+                #   model_path="assets/robots/"+robot_name+"/robot.xml",                  
+                  model_path="assets/scene.xml",                  
+
                   )
 
 # to keep the similation in pause until activated manually, press space to play
@@ -28,14 +30,27 @@ sim.reset()
 # acessing genealised pos and vel vaiables fro simulation
 print('qpos :',sim.data.qpos,'len:',sim.data.qpos.shape)
 print('qvel :',sim.data.qvel,'len:',sim.data.qvel.shape)
+print('ctrl :',sim.data.ctrl,'len:',sim.data.ctrl.shape)
+
+
 
 ctrl_dt = 0.03 # to get a control frequency of ~33.33 Hz (can go higher though)
 nsim_steps_per_ctrl = int(ctrl_dt/sim.dt)
 
+ctrl = 0*np.random.rand(sim.data.ctrl.shape[0])
+
 while True:
-    # generate new ctrl(randm here) every 0.03s, i.e.at 33 Hz
-    torques = np.random.rand(sim.data.ctrl.shape[0])
+    # # generate new ctrl(randm here) every 0.03s, i.e.at 33 Hz
+    # if ctrl[2] > 0.5:
+
+    #     ctrl[1] -= 0.01
+    # else:
+    #     ctrl[1] += 0.01
+
+    # ctrl[2] += 0.01
+    ctrl[-1] += 0.005
     for i in range(nsim_steps_per_ctrl):
-        sim.set_control(ctrl=torques) # send ctrl to the robot
+        sim.set_control(ctrl) # send ctrl to the robot
         sim.simulate_n_steps(n_steps=1) # simulate a step forward in time
         sim.render() # render the simulation
+    # print('ctrl :',sim.data.ctrl,'len:')
