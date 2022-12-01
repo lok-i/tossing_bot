@@ -2,21 +2,16 @@
 
   <!-- <include file="kinova3.xml"/> -->
   <!-- <include file="kinova3_adj_ee.xml"/> -->
-  
-  <include file="arm1.xml"/> 
+  <include file="arm1.xml"/>
   <include file="arm2.xml"/>
-  
   <!-- <include file="arm3.xml"/> -->
-  <!--<include file="arm4.xml"/>-->
- 
-  <!-- <include file="phone_model.xml"/> -->
-  
+  <!-- <include file="arm4.xml"/> -->
+  <include file="conveyer.xml"/>
   <include file="phone_model2.xml"/>
   <include file="block1.xml"/>
   <include file="block2.xml"/>
   <include file="block3.xml"/>
-  <!-- <include file="block4.xml"/> -->
-  <include file="conveyer.xml"/>
+  <include file="block4.xml"/>
   
   <statistic center="0 0 0.55" extent="1.1"/>
 
@@ -75,16 +70,5 @@
     <geom name="floor" size="0 0 .125" type="plane" material="groundplane" conaffinity="15" condim="3"/>
   
   </worldbody>
-
-
-
-  <equality>
-
-    <weld name="c2con" active="true" body1="conveyer" body2="cover" relpose="0 0 .0025 1 0 0 0"/>
-    <weld name="pcb2con" active="true" body1="conveyer" body2="pcb" relpose="0 0 .0075 1 0 0 0"/>
-    <weld name="sc2con" active="true" body1="conveyer" body2="screen" relpose="0 0 .0125 1 0 0 0"/>
-
-
-  </equality>
 
 </mujoco>

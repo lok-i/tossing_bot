@@ -143,3 +143,11 @@ class mujoco_sim(gym.Env):
                 if 'mocap_' in self.model.body_id2name(eq_obj1id) or 'mocap_' in self.model.body_id2name(eq_obj2id):
                     if self.sim_params['mocap']:
                         self.model.eq_active[eq_id] = 1 
+
+    def obj_name2id(self,name,type='body'):
+        obj_type2enum = {'body':1,'geom':5,'equality':16,'actuator':18}
+        return mujoco.mj_name2id(self.model,mujoco.mjtObj(obj_type2enum[type]), name)
+
+    def obj_id2name(self,obj_id,type='body'):
+        obj_type2enum = {'body':1,'geom':5,'equality':16,'actuator':18}
+        return mujoco.mj_id2name(self.model,mujoco.mjtObj(obj_type2enum[type]), obj_id)

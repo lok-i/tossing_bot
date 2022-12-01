@@ -32,20 +32,18 @@
         <geom size=".01 .08 .031" pos="0.19 0 .03" class="phone_wall"/>
         <geom size="0.2 .01 .031" pos="0 -.09 .03" class="phone_wall"/>
         <geom size="0.2 .01 .031" pos="0 0.09 .03" class="phone_wall"/> -->
-    
+        <inertial pos="0 0 0" quat="1 0 0 0" mass="0.03" diaginertia="0.0001 0.0001 0.0001" />
     </body>
 
-
-    <body name="battery" pos="0.25 0 0.51">
-      <freejoint name="battery_root" />
-      
-      <geom size=".035 .035 .0025" pos="0 0 0" rgba="0.0 0.0 0.0 1.0" type="box" friction=".5"/>
-    </body>
 
     <body name="pcb" pos="0.25 0 0.52">
       <freejoint name="pcb_root" />
-
+      
       <geom size=".07 .035 .0025" pos="0 0 0" rgba="0.0 0.5 0 1.0" type="box" friction=".5"/>
+
+      <!-- <geom size=".07 .035 .0025" pos="0 0 0" material="pcb" type="box" friction=".5"/> -->
+      <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.0001 0.0001 0.0001" />
+
       <body name="screw1" pos="0.05 0.02 0.0025">
 
         <geom type="cylinder" friction=".5" size=".005 .0005" rgba="0.0 0.0 0.0 1.0" />
@@ -58,16 +56,16 @@
       
       </body>
 
-      <!-- <geom size=".07 .035 .0025" pos="0 0 0" material="pcb" type="box" friction=".5"/> -->
 
 
     </body>
 
-    <body name="screen" pos="0.25 0 0.53">
+
+    <body name="screen" pos="0.25 0 0.54">
       <freejoint name="screen_root" />
       
       <geom size=".07 .035 .0025" pos="0 0 0" rgba="1.0 1.0 1.0 0.2" type="box" friction=".5"/>
-      
+      <inertial pos="0 0 0" quat="1 0 0 0" mass="0.01" diaginertia="0.0001 0.0001 0.0001" />
     </body>
 
 

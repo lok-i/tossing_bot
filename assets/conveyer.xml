@@ -26,7 +26,7 @@
   <actuator>
     <position name="conveyor" 
               joint="conveyor" 
-              ctrlrange="-.5 1.75" 
+              ctrlrange="0 0.5" 
               ctrllimited="true" 
               kp="400"
               />
