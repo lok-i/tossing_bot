@@ -9,4 +9,9 @@ The code depends on **MuJoCo**: install [mujoco](https://mujoco.org/), [mujoco_v
         pip install mujoco-python-viewer
         pip install dm_control
 
-To test you installation, run the file [test_envs.py](./test_env.py). 
+## Demo
+
+To recreate our results, show in this [video](https://youtu.be/vXydJxgvwcA), run the file [run_demo.py](./run_demo.py), using 
+
+        cd tossing_bot
+        python run_demo.py

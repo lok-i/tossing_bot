@@ -3,11 +3,8 @@ import numpy as np
 from arm1_ctrl import all_yeets
 from dm_control import mujoco
 # from dm_control.utils import inverse_kinematics
-
-import time
+ 
 from ik_solver import qpos_from_site_pose
-
-
 
 class arm_controller:
 
@@ -96,11 +93,7 @@ class arm_controller:
     def ctrl_to_hold_there(self):
         return(self.kp@( self.last_jpos - sim.data.qpos[self.jpos_idx_frmto[0]:self.jpos_idx_frmto[-1]] ) - self.kd@sim.data.qvel[self.jvel_idx_frmto[0]:self.jvel_idx_frmto[-1]])
 
-#select robot name, available options can be seen in ./assets/robots/
-robot_name='kinova3'
-
 physics = mujoco.Physics.from_xml_path("assets/scene.xml")
-
 
 # initialize custom mujoco simulation class
 sim = mujoco_sim( 
@@ -110,31 +103,79 @@ sim = mujoco_sim(
 
                   )
 
+def move_camera(ct):
+    if sim.sim_params['render']['active']:
+        cnyr_pos =  sim.data.xpos[ sim.obj_name2id(name='conveyor',type='body') ]
+        for i in range(3):        
+            sim.viewer.cam.lookat[i]= cnyr_pos[i] 
+        # throwing
+        if ct > 8 and ct < 15:
+            if sim.viewer.cam.distance> 1.5:
+                sim.viewer.cam.distance -= 0.0005
+            sim.viewer.cam.elevation = -15
+            sim.viewer.cam.azimuth = 135
+        elif ct> 15 and ct < 24:
+            if sim.viewer.cam.azimuth > 90:
+                sim.viewer.cam.azimuth -= 0.075
+            
+        elif ct> 25 and ct < 25.6:
+            if sim.viewer.cam.azimuth <= 225:
+                sim.viewer.cam.azimuth += 1            
+            if sim.viewer.cam.elevation > -25:
+                sim.viewer.cam.azimuth -= 0.5            
+
+        elif ct> 25 and ct < 25.6:
+            if sim.viewer.cam.azimuth <= 225:
+                sim.viewer.cam.azimuth += 1            
+            if sim.viewer.cam.elevation > -30:
+                sim.viewer.cam.elevation -= 0.75     
+
+
+        elif ct> 40 and ct < 45:
+            if sim.viewer.cam.azimuth >= 135:
+                sim.viewer.cam.azimuth -= 0.036            
+            if sim.viewer.cam.elevation < -15:
+                sim.viewer.cam.elevation += 0.05   
+            pass
+        
+        elif ct> 46 and ct < 49:
+            if sim.viewer.cam.azimuth >= 45:
+                sim.viewer.cam.azimuth -= 0.06  
+            if sim.viewer.cam.distance < 3.4:
+                sim.viewer.cam.distance += 0.0011 
+
+        elif ct> 56 and ct < 63:
+            if sim.viewer.cam.azimuth <= 180:
+                sim.viewer.cam.azimuth += 0.04  
+
+        elif ct> 68 and ct < 76:
+            if sim.viewer.cam.azimuth >= 47:
+                sim.viewer.cam.azimuth -= 0.033  
+            if sim.viewer.cam.elevation >= -23:
+                sim.viewer.cam.elevation -= 0.002
+        
+        elif ct> 85 and ct < 87:
+            if sim.viewer.cam.azimuth <= 135:
+                sim.viewer.cam.azimuth -= 0.08 
+
 # to keep the similation in pause until activated manually, press space to play
 if sim.sim_params['render']['active']:
     sim.viewer._paused = True
     sim.viewer._render_every_frame = False
-    sim.viewer.cam.distance = 4
-    cam_pos = [0.0, 0.0, 0.75]
+    sim.viewer.cam.distance = 3.5
+    cam_pos = [0.25, 0.0, 0.5]
 
     for i in range(3):        
         sim.viewer.cam.lookat[i]= cam_pos[i] 
     sim.viewer.cam.elevation = -15
-    sim.viewer.cam.azimuth = 180
+    sim.viewer.cam.azimuth = 135
 
 # reset state / set to intitial configuration
 sim.reset()
 
 
-
-
-
 ctrl = 0*np.random.rand(sim.data.ctrl.shape[0])
-
-
-
-
-
+# task completion flags
 one_cycle_done = False
 
 arm1_threw_screen = False
@@ -172,12 +213,9 @@ t4 = 10000
 
 while not one_cycle_done:
 
-
-
     ctrl[0:8]=np.zeros(8)
-    # ctrl[0:8]+=all_yeets(sim,curr_time,0,30,60,90)
     ctrl[0:8]+=all_yeets(sim,curr_time,t1,t2,t3,t4)
-    # ctrl[8:15] = arm2_ctrlr.ctrl_for_jpos()
+
     if not arm1_threw_screen:
         ctrl[8:15] = arm2_ctrlr.ctrl_for_jpos2(sim,q_des = arm2_ctrlr.jpos_nominal )
         for i in range(len(physics.data.qpos)):
@@ -263,16 +301,13 @@ while not one_cycle_done:
             resume_throwing = True
             if event_verbose: print('t:',curr_time,'resumed throwing')
         
-
-
     sim.set_control(ctrl) # send ctrl to the robot
     sim.simulate_n_steps(n_steps=1) # simulate a step forward in time
     sim.render() # render the simulation
 
-
-
-
-
     #transformations.euler_to_quat(np.radians(base_rpy))
     curr_time += 0.002
+    if curr_time > 90:
+        one_cycle_done = True
+    move_camera(curr_time)
     if not event_verbose: print("curr_time:", curr_time)

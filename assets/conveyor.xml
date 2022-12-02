@@ -1,4 +1,4 @@
-<mujoco model="conveyer">
+<mujoco model="conveyor">
 
 
   <default>
@@ -10,7 +10,7 @@
        
   </default>
   <worldbody>
-    <body name="conveyer" pos="0.25 0 0.5">
+    <body name="conveyor" pos="0.25 0 0.5">
       <joint name="conveyor" type="slide" damping="100" axis="0 1 0"/>
       <geom size=".1 .2 .01" pos="0 0 -.01"/>
       <!-- <geom size=".01 .08 .031" pos="-.19 0 .03" class="wall"/> -->

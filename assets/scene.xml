@@ -16,7 +16,7 @@
   <include file="block2.xml"/>
   <include file="block3.xml"/>
   <!-- <include file="block4.xml"/> -->
-  <include file="conveyer.xml"/>
+  <include file="conveyor.xml"/>
   
   <statistic center="0 0 0.55" extent="1.1"/>
 
@@ -71,7 +71,7 @@
 
   <worldbody>
     <!-- <light pos="0 0 3" dir="0 0 -1"  directional="false"/> -->
-    <light pos="0 0 3" dir="0 0 -1" directional="false" mode="targetbody" target="conveyer" />
+    <light pos="1.5 0 3" dir="0 0 -1" directional="false" mode="targetbody" target="conveyor" />
     <geom name="floor" size="0 0 .125" type="plane" material="groundplane" conaffinity="15" condim="3"/>
   
   </worldbody>
@@ -80,9 +80,9 @@
 
   <equality>
 
-    <weld name="c2con" active="true" body1="conveyer" body2="cover" relpose="0 0 .0025 1 0 0 0"/>
-    <weld name="pcb2con" active="true" body1="conveyer" body2="pcb" relpose="0 0 .0075 1 0 0 0"/>
-    <weld name="sc2con" active="true" body1="conveyer" body2="screen" relpose="0 0 .0125 1 0 0 0"/>
+    <weld name="c2con" active="true" body1="conveyor" body2="cover" relpose="0 0 .0025 1 0 0 0"/>
+    <weld name="pcb2con" active="true" body1="conveyor" body2="pcb" relpose="0 0 .0075 1 0 0 0"/>
+    <weld name="sc2con" active="true" body1="conveyor" body2="screen" relpose="0 0 .0125 1 0 0 0"/>
 
 
   </equality>
